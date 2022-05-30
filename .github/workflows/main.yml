@@ -27,7 +27,9 @@ jobs:
         run: echo 'The branch name is' ${{github.ref_name}}
       -
         name: Build and push
+        env: 
+          MYTAG: "${{ github.ref_name == 'develop' && 'latest' || github.ref_name }}"
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: tiwarisanjay/dex-example-app:latest
+          tags: tiwarisanjay/dex-example-app:${{env.MYTAG}}
