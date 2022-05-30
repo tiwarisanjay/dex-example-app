@@ -24,7 +24,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Print branch name
-        run: echo 'The branch name is' ${{github.ref}}
+        run: echo 'The branch name is' ${{github.head_ref}}
       -
         name: Build and push
         uses: docker/build-push-action@v3
