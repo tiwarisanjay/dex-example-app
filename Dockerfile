@@ -8,4 +8,4 @@ COPY *.go ./
 RUN go build -o ./example-app
 RUN chmod +x ./example-app
 RUN mv ./example-app /usr/local/bin
-CMD [ "example-app"]
+CMD [ "example-app" ]
