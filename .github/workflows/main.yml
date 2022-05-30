@@ -26,6 +26,11 @@ jobs:
       - name: Print branch name
         run: echo 'The branch name is' ${{github.ref_name}}
       -
+        name: Try ENV
+        env: 
+          TESTTAG: "${{ github.ref_name == 'develop' && 'latest' || github.ref_name }}"
+        run: echo 'Env for Branch is ' ${{env.TESTTAG}}
+      -
         name: Build and push
         env: 
           MYTAG: "${{ github.ref_name == 'develop' && 'latest' || github.ref_name }}"
