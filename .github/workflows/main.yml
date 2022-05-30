@@ -3,7 +3,9 @@ name: ci
 on:
   push:
     branches:
-      - 'develop'
+      - develop
+    tags:
+      - 'v*'
 
 jobs:
   docker:
@@ -21,9 +23,20 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Generate Tag
+        id: gen_tags
+        run: |
+          if [[ $GITHUB_REF == 'refs/tags/'* ]]; then
+            TAGS='["tiwarisanjay/dex-example-app:latest","tiwarisanjay/dex-example-app:'${GITHUB_REF/refs\/tags\//}'"]'
+          else
+            TAGS='["tiwarisanjay/dex-example-app:latest"]'
+          fi
+          echo '::set-output name=tags::'$TAGS
       -
         name: Build and push
         uses: docker/build-push-action@v3
+        needs: gen_tags
         with:
+          context: .
           push: true
-          tags: tiwarisanjay/dex-example-app:latest
+          tags: ${{ fromJson(steps.gen_tags.outputs.tags) }}
