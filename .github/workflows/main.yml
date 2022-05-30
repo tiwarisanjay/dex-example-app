@@ -23,10 +23,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Extract branch name on pull request
-        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_HEAD_REF})"
       - name: Print branch name
-        run: echo 'The branch name is' $BRANCH_NAME
+        run: echo 'The branch name is' ${{github.ref}}
       -
         name: Build and push
         uses: docker/build-push-action@v3
