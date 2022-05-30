@@ -23,8 +23,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set CURRENT_BRANCH
+        run: echo "CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
+      - name: Get CURRENT_BRANCH
+        run: echo ${{ env.CURRENT_BRANCH}}
       - name: Print branch name
-        run: echo 'The branch name is' ${{github.head_ref}}
+        run: echo 'The branch name is' ${{github.ref}}
       -
         name: Build and push
         uses: docker/build-push-action@v3
